@@ -151,7 +151,7 @@ model.to_empty(device=device) # 2) All tensors get storage on target device but 
 model.init_weights() # 3) All tensors get initialized
 
 # If we are resuming, overwrite the model parameters with those of the checkpoint
-base_dir = get_base_dir()
+base_dir = "/local/s4859049/nanochat_cache"
 output_dirname = args.model_tag if args.model_tag else f"d{args.depth}" # e.g. d12
 checkpoint_dir = os.path.join(base_dir, "base_checkpoints", output_dirname)
 resuming = args.resume_from_step != -1
@@ -412,6 +412,29 @@ print0(f"Tokens / micro-batch / rank: {args.device_batch_size} x {args.max_seq_l
 print0(f"Tokens / micro-batch: {world_tokens_per_fwdbwd:,}")
 print0(f"Total batch size {total_batch_size:,} => gradient accumulation steps: {grad_accum_steps}")
 
+def evaluate_train_bpb(model, tokenizer, device, token_bytes, num_tokens):
+    train_loader = tokenizing_distributed_data_loader_bos_bestfit(
+        tokenizer,
+        args.device_batch_size,
+        args.max_seq_len,
+        split="train",
+        device=device,
+    )
+
+    eval_steps = num_tokens // (
+        args.device_batch_size
+        * args.max_seq_len
+        * ddp_world_size
+    )
+
+    with disable_fp8(model):
+        return evaluate_bpb(
+            model,
+            train_loader,
+            eval_steps,
+            token_bytes,
+        )
+
 # Go!
 while True:
     last_step = step == num_iterations # loop runs num_iterations+1 times so that we can eval/save at the end
@@ -427,11 +450,14 @@ while True:
         print0(f"Step {step:05d} | Validation bpb: {val_bpb:.6f}")
         if val_bpb < min_val_bpb:
             min_val_bpb = val_bpb
+        train_bpb = evaluate_train_bpb(model, tokenizer, device, token_bytes, num_tokens=80 * 524288)
+        print0(f"Step {step:05d} | Training bpb: {train_bpb:.6f}")
         wandb_run.log({
             "step": step,
             "total_training_flops": flops_so_far,
             "total_training_time": total_training_time,
             "val/bpb": val_bpb,
+            "train/bpb": train_bpb,
         })
         model.train()
 
