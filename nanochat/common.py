@@ -84,7 +84,7 @@ def download_file_with_lock(url, filename, postprocess_fn=None):
     Downloads a file from a URL to a local path in the base directory.
     Uses a lock file to prevent concurrent downloads among multiple ranks.
     """
-    base_dir = get_base_dir()
+    base_dir = "/local/AgenticLLM-Assignment1/nanochat_cache"
     file_path = os.path.join(base_dir, filename)
     lock_path = file_path + ".lock"
 

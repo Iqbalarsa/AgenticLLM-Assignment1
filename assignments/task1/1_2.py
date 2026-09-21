@@ -6,7 +6,7 @@ import pickle
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 from nanochat.dataset import parquets_iter_batched
 
-CACHE_DIR = "/local/s4859049/nanochat_cache"
+CACHE_DIR = "/local/AgenticLLM-Assignment1/nanochat_cache"
 PATH_8K = os.path.join(CACHE_DIR, "tokenizer_8k/tokenizer.pkl")
 PATH_32K = os.path.join(CACHE_DIR, "tokenizer_32k/tokenizer.pkl")
 

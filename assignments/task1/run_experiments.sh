@@ -2,7 +2,7 @@
 set -e
 
 # Set base directory
-export NANOCHAT_BASE_DIR="/local/s4859049/nanochat_cache"
+export NANOCHAT_BASE_DIR="/local/AgenticLLM-Assignment1/nanochat_cache"
 export PYTHONPATH=".:$PYTHONPATH"
 
 echo "=========================================================="

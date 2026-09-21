@@ -166,7 +166,7 @@ def load_model(source, *args, **kwargs):
         "sft": "chatsft_checkpoints",
         "rl": "chatrl_checkpoints",
     }[source]
-    base_dir = get_base_dir()
+    base_dir = "/local/AgenticLLM-Assignment1/nanochat_cache"
     checkpoints_dir = os.path.join(base_dir, model_dir)
     return load_model_from_dir(checkpoints_dir, *args, **kwargs)
 
@@ -177,7 +177,7 @@ def load_optimizer_state(source, device, rank, model_tag=None, step=None):
         "sft": "chatsft_checkpoints",
         "rl": "chatrl_checkpoints",
     }[source]
-    base_dir = get_base_dir()
+    base_dir = "/local/AgenticLLM-Assignment1/nanochat_cache"
     checkpoints_dir = os.path.join(base_dir, model_dir)
     if model_tag is None:
         model_tag = find_largest_model(checkpoints_dir)

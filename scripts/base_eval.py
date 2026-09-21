@@ -44,7 +44,7 @@ EVAL_BUNDLE_URL = "https://karpathy-public.s3.us-west-2.amazonaws.com/eval_bundl
 
 def place_eval_bundle(file_path):
     """Unzip eval_bundle.zip and place it in the base directory."""
-    base_dir = get_base_dir()
+    base_dir = "/local/AgenticLLM-Assignment1/nanochat_cache"
     eval_bundle_dir = os.path.join(base_dir, "eval_bundle")
     with tempfile.TemporaryDirectory() as tmpdir:
         with zipfile.ZipFile(file_path, 'r') as zip_ref:

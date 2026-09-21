@@ -306,7 +306,7 @@ for step in range(num_steps):
 
     # Master process saves the model once in a while. Skip first step. Save last step.
     if master_process and ((step > 0 and step % args.save_every == 0) or step == num_steps - 1):
-        base_dir = get_base_dir()
+        base_dir = "/local/AgenticLLM-Assignment1/nanochat_cache"
         depth = model.config.n_layer
         output_dirname = args.model_tag if args.model_tag else f"d{depth}" # base the model tag on the depth of the base model
         checkpoint_dir = os.path.join(base_dir, "chatrl_checkpoints", output_dirname)

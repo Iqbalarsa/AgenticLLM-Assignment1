@@ -53,7 +53,7 @@ print(f"Training time: {train_time:.2f}s")
 
 # -----------------------------------------------------------------------------
 # Save the tokenizer to disk
-base_dir = get_base_dir()
+base_dir = "/local/AgenticLLM-Assignment1/nanochat_cache"
 tokenizer_dir = os.path.join(base_dir, "tokenizer")
 tokenizer.save(tokenizer_dir)
 
