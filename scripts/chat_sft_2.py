@@ -91,7 +91,7 @@ if not HAS_FA3:
     print0("WARNING: Flash Attention 3 not available, using PyTorch SDPA fallback. Training will be less efficient.")
 
 # Load the model and tokenizer
-model, tokenizer, meta = load_model("base", device, phase="train", model_tag=args.model_tag, step=args.model_step)
+model, tokenizer, meta = load_model("sft", device, phase="train", model_tag=args.model_tag, step=args.model_step)
 
 # Inherit training hyperparameters from pretrained checkpoint (None = inherit, explicit value = override)
 pretrain_user_config = meta.get("user_config", {})
@@ -160,9 +160,9 @@ for group in optimizer.param_groups:
 
 # SFT data mixture and DataLoader
 train_tasks = [
-    #SmolTalk(split="train"), # 460K rows of general conversations
-    *[MMLU(subset="all", split="auxiliary_train") for _ in range(args.mmlu_epochs)], # 100K rows per epoch
-    *[GSM8K(subset="main", split="train") for _ in range(args.gsm8k_epochs)], # 8K rows per epoch
+    SmolTalk(split="train"), # 460K rows of general conversations
+    #*[MMLU(subset="all", split="auxiliary_train") for _ in range(args.mmlu_epochs)], # 100K rows per epoch
+    #*[GSM8K(subset="main", split="train") for _ in range(args.gsm8k_epochs)], # 8K rows per epoch
 ]
 train_dataset = TaskMixture(train_tasks)
 print0(f"Training mixture: {len(train_dataset):,} rows (MMLU x{args.mmlu_epochs}, GSM8K x{args.gsm8k_epochs})")
@@ -391,7 +391,7 @@ while True:
     # save checkpoint at the end of the run (all ranks participate so each saves its optimizer shard)
     if last_step:
         output_dirname = args.model_tag if args.model_tag else f"d{depth}" # e.g. d12
-        checkpoint_dir = os.path.join(base_dir, "chatsft_checkpoints", output_dirname)
+        checkpoint_dir = os.path.join(base_dir, "chatsft2_checkpoints", output_dirname)
         save_checkpoint(
             checkpoint_dir,
             step,

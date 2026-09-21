@@ -59,7 +59,7 @@ def evaluate_core(model, tokenizer, device, max_per_task=-1):
     Evaluate a base model on the CORE benchmark.
     Returns dict with results, centered_results, and core_metric.
     """
-    base_dir = get_base_dir()
+    base_dir = "/local/AgenticLLM-Assignment1/nanochat_cache"
     eval_bundle_dir = os.path.join(base_dir, "eval_bundle")
     # Download the eval bundle if needed
     if not os.path.exists(eval_bundle_dir):

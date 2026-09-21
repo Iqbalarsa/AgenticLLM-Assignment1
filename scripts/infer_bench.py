@@ -96,7 +96,7 @@ def build_prompt(tokenizer, num_tokens):
 
 def main():
     parser = argparse.ArgumentParser(description="Inference benchmark")
-    parser.add_argument("-i", "--source", type=str, default="base", help="Checkpoint source: base|mid|sft")
+    parser.add_argument("-i", "--source", type=str, default="base", help="Checkpoint source: base|sft|sft2")
     parser.add_argument("-g", "--model-tag", type=str, default=None, help="Model tag to load")
     parser.add_argument("-s", "--step", type=int, default=None, help="Step to load (default = last)")
     parser.add_argument("--prompt-tokens", type=int, default=2048, help="Prompt length for prefill")
