@@ -60,7 +60,7 @@ print("=" * 45)
 #----------------------- 1.4 -----------------------------------
 #---------------------------------------------------------------
 
-text = "123456 2024 2025 3.14159"
+text = "1+2=3 123 1234 12$1,250.00 vs -$500 3.14159 year2019"
 print("8K :", [tok_8k.decode([t]) for t in tok_8k.encode(text)])
 print("32K:", [tok_32k.decode([t]) for t in tok_32k.encode(text)])
 
@@ -68,6 +68,6 @@ code = "    for i in range(10):\n        return x != y"
 print("8K :", [tok_8k.decode([t]) for t in tok_8k.encode(code)])
 print("32K:", [tok_32k.decode([t]) for t in tok_32k.encode(code)])
 
-non_eng = "Halo apa kabar? / 你好世界 / Goedemorgen"
+non_eng = "Café / 你好世界 / naïve"
 print("8K :", [tok_8k.decode([t]) for t in tok_8k.encode(non_eng)])
 print("32K:", [tok_32k.decode([t]) for t in tok_32k.encode(non_eng)])
